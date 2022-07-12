@@ -1,3 +1,4 @@
+from types import TracebackType
 from Capsule import Capsule
 
 class LinkedList:
@@ -30,22 +31,34 @@ class LinkedList:
         pass
 
 
-    def find_capsule_by_name():
-        pass
+    def label_search(self, now):
+        search = input('Enter what you want to search for. All notes that begin with your search will be returned.\n')
+        is_match = False
+        self.current = self.head
+        while self.current is not None:
+            if self.current.label.startswith(str(search)):
+                is_match = True
+                if self.current.is_before(now):
+                    self.current.print_note()
+                else: 
+                    self.current.print_label()
+            self.current = self.current.next
+        if is_match:
+            print(f'No results found that begin with "{search}"')
 
 
     def find_capsule_by_date():
         pass
 
-    def show_all_notes(self):
+    def show_all_notes(self, now):
         self.current = self.head
         while self.current is not None:
-            self.current.print_note()
+            self.current.print_note(now)
             self.current = self.current.next
 
-    def show_all_labels(self):
+    def show_all_labels(self, now):
         self.current = self.head
         while self.current is not None:
-            if not self.current.is_before(self.current.now): 
+            if not self.current.is_before(now): 
                 self.current.print_label()
             self.current = self.current.next
