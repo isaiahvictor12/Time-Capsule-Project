@@ -45,7 +45,7 @@ class Menu:
 
         t = Time(month, day, year)
         c = Capsule(t, note, label, self.now)
-        self.capsule_list.add_capsule(c, self.now)
+        self.capsule_list.add_capsule(c)
 
 
     def view_unlocked_capsules(self):
@@ -74,6 +74,11 @@ class Menu:
             print('Returning to main menu...')
 
 
+    def remove_capsule(self):
+        id = input('What is the id of the capsule you would like to remove?')
+        self.capsule_list.remove_capsule(id)
+
+
     def close_program(self):
         print('Closing Program...')
 
@@ -90,6 +95,7 @@ class Menu:
             2: View unlocked messages\n\
             3: View locked capsules\n\
             4: Find capsule\n\
+            5: Remove Capsule\n\
             10: Close Program\n')
 
             user_input = self.check_if_int(user_input)  # check if user input is an int
@@ -101,6 +107,7 @@ class Menu:
                 2: self.view_unlocked_capsules,
                 3: self.view_locked_capsules,
                 4: self.find_capsule,
+                5: self.remove_capsule,
                 10: self.close_program,
             }
             options.get(int(user_input), self.choice_not_found)()

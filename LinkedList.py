@@ -5,10 +5,12 @@ class LinkedList:
     def __init__(self) -> None:
         self.list = []
         self.head = None
-        self.current = None
+        self.nextID = 0
 
 
     def add_capsule(self, new_cap):
+        new_cap.id = self.nextID
+        self.nextID += 1
         if self.head is None:  # when list is empty
             self.head = new_cap
         elif new_cap.is_before(self.head.date_unlocked):  # when it should replace the head
@@ -27,8 +29,25 @@ class LinkedList:
                     self.current.next = new_cap
 
 
-    def remove_capsule():
-        pass
+    def remove_capsule(self, id_to_remove):
+        found = False
+        current = self.head
+        if int(current.id) == int(id_to_remove):
+            found = True
+            self.head = current.next
+        else:
+            prev = current
+            current = current.next            
+        while current is not None and not found:
+            if int(current.id) == int(id_to_remove):
+                prev.next = current.next
+                found = True
+            prev = current
+            current = current.next
+        if found:
+            print(f'Capsule with id {id_to_remove} was removed.\n')
+        else:
+            print(f'No capsule with id {id_to_remove} could be found.\n')
 
 
     def label_search(self, now):
@@ -39,26 +58,26 @@ class LinkedList:
             if self.current.label.startswith(str(search)):
                 is_match = True
                 if self.current.is_before(now):
-                    self.current.print_note()
+                    self.current.print_note(now)
                 else: 
                     self.current.print_label()
             self.current = self.current.next
-        if is_match:
+        if not is_match:
             print(f'No results found that begin with "{search}"')
 
 
-    def find_capsule_by_date():
+    def find_capsule_by_dates(self):
         pass
 
     def show_all_notes(self, now):
-        self.current = self.head
-        while self.current is not None:
-            self.current.print_note(now)
-            self.current = self.current.next
+        current = self.head
+        while current is not None:
+            current.print_note(now)
+            current = current.next
 
     def show_all_labels(self, now):
-        self.current = self.head
-        while self.current is not None:
-            if not self.current.is_before(now): 
-                self.current.print_label()
-            self.current = self.current.next
+        current = self.head
+        while current is not None:
+            if not current.is_before(now): 
+                current.print_label()
+            current = current.next
